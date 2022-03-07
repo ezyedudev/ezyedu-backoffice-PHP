@@ -1,71 +1,93 @@
-<?php include('header.php'); 
+<?php include "assets/inc/meta.php"; 
 session_start();
 if(isset($_POST["login"])){
-		
-	$pageURL 	= "https://$_SERVER[HTTP_HOST]/dashboard";
-	
+				
+	$pageURL 	= $_SERVER['HTTP_REFERER']."dashboard";
+
 	$url 		= "https://dev-api.ezy-edu.com/api/auth/login";
 	$email 		= $_POST['email'];
 	$password 	= $_POST['password'];
 	$data 		= $email.':'.$password;
 	$key 		= base64_encode($data);
 	$user_agent	=	$_SERVER['HTTP_USER_AGENT'];
-	$pageURL    = 
 	$headers = array(
 						'Content-Type: application/json',
 						'Authorization: '. $key,
 						'role:1'
 					);
-		
+	
 	$ch = curl_init($url);
+	
 			curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 			curl_setopt($ch, CURLOPT_HEADER, 0);
-			curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+			curl_setopt($ch, CURLOPT_TIMEOUT, 60);
 			curl_setopt($ch, CURLOPT_POST, 1);
-			curl_setopt($ch, CURLOPT_USERAGENT, $user_agent);
+			curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 60);
+       
+			curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.139 Safari/537.36');
+			curl_setopt($ch, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+			
 			$response = curl_exec($ch);
+			
 			curl_close($ch);
 			
 	$result = json_decode($response, true);
+	//var_dump($response); exit;
+	//echo '<pre>'; print_r($result); exit;
 	if($result['session'] != ''){
-		echo $pageURL; exit;
+		
 		$_SESSION["session_key"] 	= $result['session'];
 		header('Location: '.$pageURL);
 		die();
 	}
 	
 }
+
 ?>
-<body class="gray-bg  pace-done pace-done">
-<div class="pace  pace-inactive pace-inactive">
-<div class="pace-progress"  style="transform: translate3d(100%, 0px, 0px);">
-  <div class="pace-progress-inner"></div>
+
+<body class="login-page" style="min-height: 466px;">
+<div class="login-box">
+
+<div class="card card-outline card-primary">
+<div class="card-header text-center">
+<a href="" class="h1"><b>EzyEdu</b>Admin</a>
 </div>
-<div class="pace-activity">
-</div></div>
-<div id="wrapper">
+<div class="card-body">
+<p class="login-box-msg">Sign in to start your session</p>
+<form action="" method="post">
+<div class="input-group mb-3">
+<input type="email" class="form-control" placeholder="Email" name="email">
+<div class="input-group-append">
+<div class="input-group-text">
+<span class="fas fa-envelope"></span>
+</div>
+</div>
+</div>
+<div class="input-group mb-3">
+<input type="password" class="form-control" placeholder="Password" name="password">
+<div class="input-group-append">
+<div class="input-group-text">
+<span class="fas fa-lock"></span>
+</div>
+</div>
+</div>
+<div class="row">
 
-  <div class="text-center">
-    <div>
-      <h1 class="logo-name m-t-lg">EzyEdu</h1>
-    </div>
-    <div class="middle-box loginscreen  animated fadeInDown">
+<div class="col-4">
+<button type="submit" class="btn btn-primary btn-block" name="login">Sign In</button>
+</div>
 
-        
-       <form novalidate="" class="" method="post">
-    <div class="form-group">
-        <input class="form-control ng-untouched ng-pristine " name="email" placeholder="Email" type="email">
-        <!---->
-    </div>
-    <div class="form-group">
-        <input class="form-control ng-untouched ng-pristine" name="password" placeholder="Password" type="password">
-        <!---->
-    </div>
-    <div class="form-group">
-        <button class="btn btn-primary block full-width m-b" name="login" type="submit" >
-            Login
-        </button>
-    </div>
+</div>
 </form>
-<?php include('footer.php'); ?>
+
+</div>
+
+</div>
+
+</div>
+
+</body>
+</html>
