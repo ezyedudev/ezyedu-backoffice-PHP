@@ -27,8 +27,9 @@ $url 		= "https://dev-api.ezy-edu.com/api/user";
 			curl_close($ch);
 			
 	$result = json_decode($response, true);
-	var_dump($response); exit;
-	echo '<pre>'; print_r($result); exit;
+	$users = $result['data'];
+	//var_dump($response); exit;
+	//echo '<pre>'; print_r($result['data']); exit;
 ?>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -75,19 +76,19 @@ $url 		= "https://dev-api.ezy-edu.com/api/user";
                     <th>Points</th>
                     <th>Register Date</th>
                     <th>Activated</th>
-					<th>Action</th>
+					
                   </tr>
                   </thead>
                   <tbody>
+				  <?php foreach ($users as $row){ $imgbaseurl = "https://dpzt0fozg75zu.cloudfront.net/";//echo '<pre>'; print_r($row);?>
                   <tr>
-                    <td>Trident</td>
-                    <td>Internet
-                      Explorer 4.0
-                    </td>
-                    <td>Win 95+</td>
-                    <td> 4</td>
-                    <td>X</td>
+                    <td><img src="<?php echo $imgbaseurl.$row['image']?>" class="img-circle elevation-2" width="60px" height="60px" alt="User Image"></td>
+                    <td><?php echo $row['email'];?></td>
+                    <td><?php echo $row['student_points'];?></td>
+                    <td> <?php echo $row['student_points'];?></td>
+                    <td><?php echo $row['created_at'];?></td>
                   </tr>
+				  <?php } ?>
 				   </tbody>
                   <tfoot>
                   <tr>
@@ -96,7 +97,7 @@ $url 		= "https://dev-api.ezy-edu.com/api/user";
                     <th>Points</th>
                     <th>Register Date</th>
                     <th>Activated</th>
-					<th>Action</th>
+					
                   </tr>
                   </tfoot>
                 </table>
@@ -120,15 +121,7 @@ $url 		= "https://dev-api.ezy-edu.com/api/user";
       "responsive": true, "lengthChange": false, "autoWidth": false,
       "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
     }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-    $('#example2').DataTable({
-      "paging": true,
-      "lengthChange": false,
-      "searching": false,
-      "ordering": true,
-      "info": true,
-      "autoWidth": false,
-      "responsive": true,
-    });
+    
   });
 </script>
 </body>

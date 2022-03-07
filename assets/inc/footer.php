@@ -26,7 +26,7 @@
 <!-- ChartJS -->
 <script src="assets/plugins/chart.js/Chart.min.js"></script>
 <!-- Sparkline -->
-<script src="plugins/sparklines/sparkline.js"></script>
+<script src="assets/plugins/sparklines/sparkline.js"></script>
 <!-- JQVMap -->
 <script src="assets/plugins/jqvmap/jquery.vmap.min.js"></script>
 <script src="assets/plugins/jqvmap/maps/jquery.vmap.usa.js"></script>

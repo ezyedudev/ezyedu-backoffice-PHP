@@ -2,7 +2,7 @@
 session_start();
 if(isset($_POST["login"])){
 				
-	$pageURL 	= $_SERVER['HTTP_REFERER']."dashboard";
+	$pageURL 	= $_SERVER['HTTP_REFERER']."dashboard.php";
 
 	$url 		= "https://dev-api.ezy-edu.com/api/auth/login";
 	$email 		= $_POST['email'];
